@@ -27,26 +27,54 @@
                         <th>Opsi</th>
                     </tr>
                 </thead>
-                @foreach ($pengaduan as $item)
-                    <tbody class="table-secondary" style="text-align: center">
-                        <tr>
-                            @if (Auth::user()->nik == $item->nik)
-                            <td>{{$item->id_pengaduan}}</td>
-                            <td>{{$item->tgl_pengaduan}}</td>
-                            <td>{{$item->nik}}</td>
-                            <td>{{$item->isi_laporan}}</td>
-                            <td><img style="width: 128px; height: 100px" src="{{ asset("/img/$item->foto")}}"></td>
-                            <td>{{$item->status}}</td>
-                            <td>
-                                <span><a href="/hasil/hapus/{{$item->id_pengaduan}}" class="btn btn-danger" >Hapus</a></span>
-                                <span><a href="/hasil/detail_pengaduan/{{$item->id_pengaduan}}" class="btn btn-success">Detail</a></span>
-                                <span><a href="/hasil/update_pengaduan/{{$item->id_pengaduan}}" class="btn btn-warning">Update</a></span>
-                            </td>
+  @foreach ($pengaduan as $item)
+            @if (Auth::guard('petugas')->check())
+                {{-- If the user is a petugas, they can see all data --}}
+                <tbody class="table-secondary" style="text-align: center">
+                <tr>
+                    <td>{{$item->id_pengaduan}}</td>
+                    <td>{{$item->tgl_pengaduan}}</td>
+                    <td>{{$item->nik}}</td>
+                    <td>{{$item->isi_laporan}}</td>
+                    <td><img style="width: 128px; height: 100px" src="{{ asset("/img/$item->foto")}}"></td>
+                    <td>{{$item->status}}</td>
+                    <td>
+                        @if ($item->status == '0')
+                        {{-- Show 'Terima' and 'Tolak' buttons --}}
+                            <a href="/hasil/terima/{{$item->id_pengaduan}}" type="submit" class="btn btn-success">Terima</a>
+                            <a href="/hasil/tolak/{{$item->id_pengaduan}}" type="submit" class="btn btn-danger">Tolak</a>
+                    @elseif ($item->status == 'proses')
+                        {{-- Show 'Selesai' a --}}
+                            <a href="/hasil/selesai/{{$item->id_pengaduan}}" type="submit" class="btn btn-primary">Selesai</a>
+                    @else
+                        {{-- Hide buttons when status is 'selesai' --}}
+                        <span>No actions available</span>
+                    @endif
+                    </td> 
+                </tbody>
 
-                                @endif
-                        </tr>
-                    </tbody>
-                @endforeach
+                    <tr>
+            @elseif (Auth::user()->nik == $item->nik)
+                {{-- If the user is a nik and the data belongs to them, they can see their data --}}
+                    <tbody class="table-secondary" style="text-align: center">
+                    
+                    <td>{{$item->id_pengaduan}}</td>
+                    <td>{{$item->tgl_pengaduan}}</td>
+                    <td>{{$item->nik}}</td>
+                    <td>{{$item->isi_laporan}}</td>
+                    <td><img style="width: 128px; height: 100px" src="{{ asset("/img/$item->foto")}}"></td>
+                    <td>{{$item->status}}</td>
+                    <td>
+                        <span><a href="/hasil/hapus/{{$item->id_pengaduan}}" class="btn btn-danger">Hapus</a></span>
+                        <span><a href="/hasil/detail_pengaduan/{{$item->id_pengaduan}}" class="btn btn-success">Detail</a></span>
+                        <span><a href="/hasil/update_pengaduan/{{$item->id_pengaduan}}" class="btn btn-warning">Update</a></span>
+                    </td>
+                </tr>
+            </tbody>
+
+            @endif
+        @endforeach
+
             </table>
             <a href= "isi" class="btn btn-danger">Buat Laporan Baru</a>
         </div>

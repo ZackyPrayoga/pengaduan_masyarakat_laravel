@@ -10,7 +10,14 @@
 <header>
   <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color:#900C3F;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Zacky</a>
+      
+      @if (Auth::guard('petugas')->check())
+      <a class="navbar-brand" href="#">Petugas</a>
+
+      @else
+      <a class="navbar-brand" href="#">Masyarakat</a>
+
+      @endif
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

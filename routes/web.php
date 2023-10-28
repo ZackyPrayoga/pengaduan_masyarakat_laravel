@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('rakyat', function () {
@@ -87,6 +87,14 @@ Route::post('/register-petugas', [RegisterController::class, 'proses_tambah_petu
 
 Route::get('/register-petugas', [RegisterController::class, 'petugas']);
 
+// Route to handle 'Terima' action for all "pengaduan" rows with status '0'
+Route::post('/terima', [PengaduanController::class, 'terima'])->name('terima');
+
+// Route to handle 'Tolak' action for all "pengaduan" rows with status '0'
+Route::post('/tolak', [PengaduanController::class, 'tolak'])->name('tolak');
+
+// Route to handle 'Selesai' action for all "pengaduan" rows with status 'proses'
+Route::post('/selesai', [PengaduanController::class, 'selesai'])->name('selesai');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

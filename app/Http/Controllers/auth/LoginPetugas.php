@@ -15,11 +15,11 @@ class LoginPetugas extends Controller
     }
 
     function login(Request $request){
-        $data = $request->only('username', 'password');
+        $data = $request->only('username', 'password','level');
         if(Auth::guard("petugas")->attempt($data)){
             return redirect ('home');
         }else{
-            return redirect ('login')->with('error', 'username atau password salah');
+            return redirect ('login-petugas')->with('error', 'username atau password salah');
         }
     }
 }
