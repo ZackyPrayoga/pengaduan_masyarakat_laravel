@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('home');
 
 Route::get('rakyat', function () {
     return view('rakyat');
@@ -45,9 +45,7 @@ Route::get('halaman-update', function () {
     return view('update');
 });
 
-Route::get('isi', function () {
-    return view('isi-pengaduan');
-});
+
 
 Route::get('daftar-petugas', function () {
     return view('daftar-petugas');
@@ -67,7 +65,11 @@ Route::get('/daftar-petugas', [PetugasController::class, 'petugas']);
 
 Route::get('/hasil/hapus/{id_pengaduan}', [PengaduanContoller::class, 'hapus']);
 
-Route::get('/home', [HomeController::class, 'index']);
+Route::get('/hasil/isi-tanggapan/{id}', [IsiController::class, 'index']);
+
+Route::post('/hasil/isi-tanggapan/{id}', [IsiController::class, 'proses_tambah_tanggapan']);
+
+Route::get('/', [HomeController::class, 'index']);
 
 Route::get('/register', [RegisterController::class, 'register']);
 
@@ -85,22 +87,30 @@ Route::post('/login-petugas', [LoginPetugas::class, 'login']);
 
 Route::post('/register-petugas', [RegisterController::class, 'proses_tambah_petugas']);
 
+Route::post('/register-admin', [RegisterController::class, 'proses_tambah_admin']);
+
+Route::get('/register-admin', [RegisterController::class, 'admin']);
+
 Route::get('/register-petugas', [RegisterController::class, 'petugas']);
 
 // Route to handle 'Terima' action for all "pengaduan" rows with status '0'
-Route::post('/terima', [PengaduanController::class, 'terima'])->name('terima');
+Route::get('/hasil/terima/{id_pengaduan}', [PengaduanContoller::class, 'terima']);
 
 // Route to handle 'Tolak' action for all "pengaduan" rows with status '0'
-Route::post('/tolak', [PengaduanController::class, 'tolak'])->name('tolak');
+Route::get('/hasil/tolak/{id_pengaduan}', [PengaduanContoller::class, 'tolak']);
 
 // Route to handle 'Selesai' action for all "pengaduan" rows with status 'proses'
-Route::post('/selesai', [PengaduanController::class, 'selesai'])->name('selesai');
+Route::get('/hasil/selesai/{id_pengaduan}', [PengaduanContoller::class, 'selesai']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/hasil/detail_pengaduan/generate-report/{id}', [HomeController::class, 'generateReport']);
+
 Route::get('/hasil', [PengaduanContoller::class, 'pengaduan']);
+
+route::get('/navbar', [PengaduanContoller::class, 'navbar']);
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -108,5 +118,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/isi-pengaduan', [IsiController::class, 'proses_tambah_pengaduan']);
     Route::get('/detail', [PengaduanContoller::class, 'pengaduan']); 
-});
+    Route::get('isi', function () {
+        return view('isi-pengaduan');
+    });
 
+});

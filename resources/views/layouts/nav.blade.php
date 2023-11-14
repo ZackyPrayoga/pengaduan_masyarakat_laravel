@@ -11,9 +11,14 @@
   <nav class="navbar navbar-expand-lg" data-bs-theme="dark" style="background-color:#900C3F;">
     <div class="container-fluid">
       
-      @if (Auth::guard('petugas')->check())
-      <a class="navbar-brand" href="#">Petugas</a>
+      @if (Auth::guard('petugas')->check() && Auth::guard('petugas')->user()->level === 'admin')
 
+      <a class="navbar-brand" href="#">Admin</a>
+
+      @elseif(Auth::guard('petugas')->check() && Auth::guard('petugas')->user()->level === 'petugas')
+      
+      <a class="navbar-brand" href="#">Petugas</a>
+      
       @else
       <a class="navbar-brand" href="#">Masyarakat</a>
 
@@ -29,7 +34,7 @@
     
     <ul class="navbar-nav mx-auto">
         <li class="nav-item ">
-            <a class="nav-link {{ 'home' == request()->path() ? 'active' : '' }}" href="/home">Home</a>
+            <a class="nav-link {{ '/' == request()->path() ? 'active' : '' }}" href="/">Home</a>
         </li>
         @if (Auth::check())
         <li class="nav-item">
@@ -45,13 +50,25 @@
           
 
           @endif
-          @if (Auth::check() or Auth::guard('petugas')->check())
+          @php
+    $petugasUser = Auth::guard('petugas')->user();
+@endphp
 
-            
+          @if (Auth::guard('petugas')->check() && Auth::guard('petugas')->user()->level === 'petugas')
         <ul class="navbar-nav ">
           <li class="nav-item">
             <a class="nav-link active" href="/logout">Log Out</a>
           </li>
+
+          @elseif(Auth::guard('petugas')->check() && Auth::guard('petugas')->user()->level === 'admin')
+          <ul class="navbar-nav ">
+            <li class="nav-item">
+              <a class="nav-link active" href="/register-petugas">Tambah Petugas</a>
+            </li>
+          <ul class="navbar-nav ">
+            <li class="nav-item">
+              <a class="nav-link active" href="/logout">Log Out</a>
+            </li>
         @else
           </ul>
           <ul class="navbar-nav ">

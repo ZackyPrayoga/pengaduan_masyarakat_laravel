@@ -11,10 +11,12 @@ class PengaduanContoller extends Controller
 
     function pengaduan()
     {
-        $pengaduan = DB::table('pengaduan')->get();
-        
+$pengaduan = DB::table('tanggapan')
+        ->rightJoin('pengaduan', 'tanggapan.id_pengaduan', '=', 'pengaduan.id_pengaduan')
+        ->get();
 
-        return view('hasil', ['pengaduan' => $pengaduan]);
+    return view('hasil', ['pengaduan' => $pengaduan]);
+
     }
 
     function detail_pengaduan($id)
@@ -75,9 +77,9 @@ class PengaduanContoller extends Controller
             return redirect('hasil');
     }
 
-    public function terima(Request $request, $id) {
+    public function terima($id) {
         // Find all "pengaduan" rows with status $id and update their status to 'proses'
-        DB::table('pengaduan')->where('id_pengaduan', $id)->update(['id_pengaduan' => 'proses']);
+        DB  ::table('pengaduan')->where('id_pengaduan', $id)->update(['status' => 'proses']);
 
         // Redirect back or to a different route
         return redirect('/hasil');
@@ -85,7 +87,7 @@ class PengaduanContoller extends Controller
 
     public function tolak($id) {
         // Find all "pengaduan" rows with id_pengaduan $id and update their id_pengaduan to 'rejected' or any appropriate id_pengaduan
-        DB::table('pengaduan')->where('id_pengaduan', $id)->update(['id_pengaduan' => 'rejected']);
+        DB::table('pengaduan')->where('id_pengaduan', $id)->update(['status' => 'ditolak']);
 
         // Redirect back or to a different route
         return redirect('/hasil');
@@ -93,11 +95,13 @@ class PengaduanContoller extends Controller
 
     public function selesai($id) {
         // Find all "pengaduan" rows with id_pengaduan 'proses' and update their id_pengaduan to 'selesai'
-        DB::table('pengaduan')->where('id_pengaduan', $id)->update(['id_pengaduan' => 'selesai']);
+        DB::table('pengaduan')->where('id_pengaduan', $id)->update(['status' => 'selesai']);
 
         // Redirect back or to a different route
         return redirect('/hasil');
     }
 
-
+    public function navbar(){
+        DB::table('petugas')->get();
+    }
 }

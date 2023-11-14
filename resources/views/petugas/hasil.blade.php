@@ -49,7 +49,7 @@
                         {{-- Show 'Selesai' a --}}
                             <a href="/hasil/selesai/{{$item->id_pengaduan}}" type="submit" class="btn btn-primary">Selesai</a>
                     @else
-                        
+
                     @endif
                     <span><a href="/hasil/detail_pengaduan/{{$item->id_pengaduan}}" class="btn btn-success">Detail</a></span>
 
@@ -63,31 +63,7 @@
                     </td>
                 </tbody>
 
-                    <tr>
-            @elseif (Auth::user()->nik == $item->nik)
-                {{-- If the user is a nik and the data belongs to them, they can see their data --}}
-                    <tbody class="table-secondary" style="text-align: center">
-                    
-                    <td>{{$item->id_pengaduan}}</td>
-                    <td>{{$item->tgl_pengaduan}}</td>
-                    <td>{{$item->nik}}</td>
-                    <td>{{$item->isi_laporan}}</td>
-                    <td><img style="width: 128px; height: 100px" src="{{ asset("/img/$item->foto")}}"></td>
-                    <td>{{$item->status}}</td>
-                    <td>
-                        @if ($item->status == 'ditolak')
-
-                        @elseif($item->status == 'selesai')
-
-                        @else   
-                        <span><a href="/hasil/hapus/{{$item->id_pengaduan}}" class="btn btn-danger">Hapus</a></span>
-                        <span><a href="/hasil/update_pengaduan/{{$item->id_pengaduan}}" class="btn btn-warning">Update</a></span>
-                        @endif
-                        <span><a href="/hasil/detail_pengaduan/{{$item->id_pengaduan}}" class="btn btn-success">Detail</a></span>
-                    </td>
-                    <td>{{$item->tanggapan}}</td>
-                </tr>
-            </tbody>
+ 
 
             </table>
             <a href= "isi" class="btn btn-danger">Buat Laporan Baru</a>

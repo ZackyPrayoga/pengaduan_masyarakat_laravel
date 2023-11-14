@@ -25,7 +25,10 @@
                             <th>Opsi</th>
                         </tr>
                     </thead>
-                    
+
+                    @if(Auth::guard('petugas')->check() && Auth::guard('petugas')->user()->level === 'admin')
+
+
                         <tbody class="table-secondary" style="text-align: center">
                             <tr>
                                 <td>{{$pengaduan->id_pengaduan}}</td>
@@ -35,11 +38,43 @@
                                 <td><img style="width: 120px; height: 100px" src="{{ asset("/img/$pengaduan->foto")}}"></td>
                                 <td>{{$pengaduan->status}}</td>
                                 <td>
-                                    <a href="" class="btn btn-primary">Print</a>
+                                    <a href="/hasil/detail_pengaduan/generate-report/{{$pengaduan->id_pengaduan}}" class="btn btn-primary">Print</a>
                                 </td>
                             </tr>
-                        </tbody>
-                    
+                        </tbody>    
+                        @elseif (Auth::guard('petugas')->check() && Auth::guard('petugas')->user()->level === 'petugas')
+                        <tbody class="table-secondary" style="text-align: center">
+                    <tr>
+
+                        <td>{{$pengaduan->id_pengaduan}}</td>
+                        <td>{{$pengaduan->tgl_pengaduan}}</td>
+                        <td>{{$pengaduan->nik}}</td>
+                        <td>{{$pengaduan->isi_laporan}}</td>
+                        <td><img style="width: 120px; height: 100px" src="{{ asset("/img/$pengaduan->foto")}}"></td>
+                        <td>{{$pengaduan->status}}</td>
+                        <td>
+                            <span>No actions available</span>
+                        </td>
+                    </tr>
+
+                </tbody>
+                @else
+                <tbody class="table-secondary" style="text-align: center">
+            <tr>
+
+                <td>{{$pengaduan->id_pengaduan}}</td>
+                <td>{{$pengaduan->tgl_pengaduan}}</td>
+                <td>{{$pengaduan->nik}}</td>
+                <td>{{$pengaduan->isi_laporan}}</td>
+                <td><img style="width: 120px; height: 100px" src="{{ asset("/img/$pengaduan->foto")}}"></td>
+                <td>{{$pengaduan->status}}</td>
+                <td>
+                    <span>No actions available</span>
+                </td>
+            </tr>
+
+        </tbody>
+                @endif
                 </table>
             </div>
         </div>

@@ -19,7 +19,7 @@ class LoginController extends Controller
         $data_login = $request->only('username', 'password');
         $masuk = Auth::attempt($data_login);
         if($masuk){
-            return redirect('/home');
+            return redirect('/');
         }else{
             return redirect('/login')->with('error', 'username atau password salah');
         }
@@ -34,6 +34,6 @@ class LoginController extends Controller
      
         $request->session()->regenerateToken();
      
-        return redirect('/login');
+        return redirect('/');
     }
 }

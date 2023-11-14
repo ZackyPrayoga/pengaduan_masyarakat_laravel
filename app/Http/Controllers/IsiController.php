@@ -34,4 +34,31 @@ class IsiController extends Controller
         ]);
         return redirect('/hasil');
     }
-}
+
+    function proses_tambah_tanggapan(Request $request, $id){
+
+        $request->validate([
+            'tanggapan' => 'required'
+        ]);
+
+        $tanggapan = $request->tanggapan;
+
+        $id_petugas = Auth::guard('petugas')->user()->id_petugas;
+
+        DB::table('tanggapan')->rightJoin('pengaduan', 'tanggapan.id_pengaduan', '=', 'pengaduan.id_pengaduan')->where('id_pengaduan', $id)->insert([
+            'id_pengaduan' => $id,
+            'tgl_tanggapan' => date('Y-m-d'),
+            'tanggapan' => $tanggapan,
+            'id_petugas' => $id_petugas,
+        ]);
+        return redirect('/hasil');
+    }
+
+    function index($id){
+        $data = DB::table('pengaduan')->where('id_pengaduan', $id)->first();
+        $data = (array) $data;
+
+    return view('isi-tanggapan', ['data' => $data]);
+        }
+}   
+

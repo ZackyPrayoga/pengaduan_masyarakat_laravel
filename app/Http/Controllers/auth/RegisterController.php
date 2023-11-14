@@ -50,7 +50,26 @@ class RegisterController extends Controller
                  'telp' => $telp,
                  'level' => "petugas",
              ]);
-             return redirect('/login');
+             return redirect('/home');
          }
+         function admin(){
+
+            return view('auth.register-admin');
+        }
+         function proses_tambah_admin(Request $request) {
+
+            $nama_petugas = $request->nama_petugas;
+            $username = $request->username;
+            $telp = $request->telp;
+   
+            DB::table('petugas')->insert([
+                'nama_petugas' => $nama_petugas,
+                'username' => $username,
+                'password' => Hash::make($request->password),
+                'telp' => $telp,
+                'level' => "admin",
+            ]);
+            return redirect('/login-petugas');
+        }
     }
 

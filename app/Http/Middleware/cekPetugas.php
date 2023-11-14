@@ -23,7 +23,7 @@ class cekPetugas extends Middleware
             return $next($request);
         }else{
 
-        return redirect('/login-level');
+        return redirect('/');
     }
 }
 }
