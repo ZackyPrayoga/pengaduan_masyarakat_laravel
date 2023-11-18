@@ -69,7 +69,13 @@
             <li class="nav-item">
               <a class="nav-link active" href="/logout">Log Out</a>
             </li>
-        @else
+
+            @elseif (Auth::check())
+            <ul class="navbar-nav ">
+              <li class="nav-item">
+                <a class="nav-link active" href="/logout">Log Out</a>
+              </li>
+            @else
           </ul>
           <ul class="navbar-nav ">
           <li class="nav-item">

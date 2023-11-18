@@ -73,22 +73,6 @@ Route::get('/register-admin', [RegisterController::class, 'admin']);
 
 Route::get('/register-petugas', [RegisterController::class, 'petugas']);
 
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::post('/isi-pengaduan', [IsiController::class, 'proses_tambah_pengaduan']);
-    Route::get('/detail', [PengaduanContoller::class, 'pengaduan']); 
-    Route::post('/tambah-petugas', [PetugasController::class, 'proses_tambah_petugas']);
-
-Route::get('/rakyat', [LaporanController::class, 'laporan']);
-
 Route::get('/hasil/detail_pengaduan/generate-report/{id}', [HomeController::class, 'generateReport']);
 
 Route::get('/hasil', [PengaduanContoller::class, 'pengaduan']);
@@ -119,6 +103,22 @@ Route::get('/hasil/tolak/{id_pengaduan}', [PengaduanContoller::class, 'tolak']);
 
 // Route to handle 'Selesai' action for all "pengaduan" rows with status 'proses'
 Route::get('/hasil/selesai/{id_pengaduan}', [PengaduanContoller::class, 'selesai']);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/isi-pengaduan', [IsiController::class, 'proses_tambah_pengaduan']);
+    Route::get('/detail', [PengaduanContoller::class, 'pengaduan']); 
+    Route::post('/tambah-petugas', [PetugasController::class, 'proses_tambah_petugas']);
+
+Route::get('/rakyat', [LaporanController::class, 'laporan']);
+
     Route::get('isi', function () {
         return view('isi-pengaduan');
     });
